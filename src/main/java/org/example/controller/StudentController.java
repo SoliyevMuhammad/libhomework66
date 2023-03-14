@@ -28,7 +28,7 @@ public class StudentController {
                 case 6 -> orderBook();
                 case 0 -> b = false;
                 default -> {
-                    System.out.println("EROR");
+                    System.out.println("Not found");
                     showMenu();
                 }
             }

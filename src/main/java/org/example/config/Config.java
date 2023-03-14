@@ -12,16 +12,16 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = "org.example")
 public class Config {
     @Bean
-    public DataSource dataSource() {
+    public  static DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/DB_Lesson");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/db_library");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("Oyatillo2003");
+        dataSource.setPassword("admin123");
         return dataSource;
     }
     @Bean
-    public JdbcTemplate getTemplate() {
+    public static JdbcTemplate getTemplate() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(dataSource());
         return jdbcTemplate;

@@ -31,7 +31,7 @@ public class AdminController {
             case 8 -> bookTakenHistory();
             case 0 -> b = false;
                 default -> {
-                    System.out.println("ERORR");
+                    System.out.println("Mazgi!!!!");
                     showMenu();
                 }
             }

@@ -1,5 +1,6 @@
 package org.example.db;
 
+import org.example.config.Config;
 import org.example.dto.Student;
 import org.example.enums.GeneralStatus;
 import org.example.repository.StudentRepository;
@@ -12,13 +13,13 @@ import java.time.LocalDate;
 public class InitDatabase {
     @Autowired
     StudentRepository studentRepository;
-    public  void adminInit() {
 
+    public  void adminInit() {
         Student profile = new Student();
-        profile.setName("Alish");
-        profile.setSurname("Alishev");
-        profile.setPhone("1111");
-        profile.setBirthDate(LocalDate.parse("2000-12-12"));
+        profile.setName("M");
+        profile.setSurname("M");
+        profile.setPhone("1122");
+        profile.setBirthDate(LocalDate.parse("2003-01-10"));
         profile.setStatus(GeneralStatus.ADMIN);
 
 

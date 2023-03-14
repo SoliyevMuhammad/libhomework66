@@ -33,7 +33,7 @@ public class StudentRepository {
             }
         }
         return 0;
-    }*/
+    }
     public int save(Student student) {
         String sql = "insert into student (name,surname, phone, birth_date, status) values ('%s','%s','%s','%s','%s')";
         sql = String.format(sql, student.getName(), student.getSurname(), student.getPhone(),
@@ -67,7 +67,7 @@ public class StudentRepository {
             try {
                 if (connection != null) {
                     connection.close();
-                }
+                }p
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -77,11 +77,7 @@ public class StudentRepository {
         }
         return null;
     }*/
-   /*public Student  getStudentByPhone(String phone) {
-       String sql = "SELECT * FROM student where phone =" + phone;
-       Student student = (Student) jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Student.class));
-       return student;
-   }*/
+
   /* public Student getStudentByPhone(String phone) {
        Connection connection = null;
        try {
@@ -115,7 +111,7 @@ public class StudentRepository {
        return null;
    }*/
    public Student getStudentByPhone(String phone) {
-       String sql = String.format("Select  * from student where phone = '%s';", phone);
+       String sql = String.format("Select  * from student where phone =' "+phone + "';");
 
        List<Student> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Student.class));
        if (list.size() > 0) {
@@ -193,4 +189,12 @@ public class StudentRepository {
 //        List<StudentBook> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(StudentBook.class));
 //        return list;
 //    }
+public int save(Student student) {
+    String sql = "insert into student (name,surname, phone, birth_date, status) values ('%s','%s','%s','%s','%s')";
+    sql = String.format(sql, student.getName(), student.getSurname(), student.getPhone(),
+            student.getBirthDate(), student.getStatus());
+    int n = jdbcTemplate.update(sql);
+    return n;
+}
+
 }

@@ -1,15 +1,23 @@
 package org.example.db;
 
+import lombok.RequiredArgsConstructor;
+import org.example.config.Config;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+@Component
+@RequiredArgsConstructor
 public class Database {
+ private final JdbcTemplate jdbcTemplate;
      public static Connection getConnection() {
          Connection connection = null;
          try {
-             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/DB_Lesson", "postgres", "Oyatillo2003");
+             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/db_library", "postgres", "admin123");
              return connection;
          } catch (SQLException e) {
              System.out.println(e.getSQLState());
@@ -50,6 +58,8 @@ public class Database {
          excute(book);
          excute(student);
          excute(student_book);
+
+
 
      }
      private static void excute(String sql) {
