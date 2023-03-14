@@ -2,76 +2,131 @@ package org.example.repository;
 
 import org.example.db.Database;
 import org.example.dto.Book;
+import org.example.dto.StudentsBook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+
 @Repository
 public class BookRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    public Book getProfileID(int id) {
-        String sql = "select * from book " +
-                "where id = " + id;
-        Book dto = jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(Book.class));
-       return dto;
-    }
 
-        public Book getProfileTitle(String title) {
-        String sql = "select * from book " +
-                "where title ="+ title;
-            Book dto = jdbcTemplate.queryForObject(sql,new BeanPropertyRowMapper<>(Book.class));
-            return dto;
 
-    }
-    private Book getProfileByResultSet(ResultSet set) {
-        String sql = "SELECT * FROM book Where set =" + set;
-        Book dto = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Book.class));
-        return dto;
-    }
-
-    public void insertBook(String title, String author, String amount) {
-
-        String sql = "insert into book(title,author,amount)" +
-                " values ('%s','%s','%s')";
-        sql = String.format(sql,title,author,amount);
+    public int save(Book book) {
+        String sql = "insert into book (title,author, publish_year, amount) values ('%s','%s','%s','%s')";
+        sql = String.format(sql, book.getTitle(), book.getAuthor(), book.getPublishYear(), book.getAmount());
         int n = jdbcTemplate.update(sql);
-        System.out.println(n);
+        return n;
+    }
+    /*public int save(Book book) {
+        Connection connection = Database.getConnection();
+        try {
+            String sql = "insert into book (title, author, pulish_year, amount) " + " values ('%s','%s','%s','%s')";
+            sql = String.format(sql, book.getTitle(), book.getAuthor(), book.getPublishYear(), book.getAmount());
 
+            Statement statement = connection.createStatement();
+            return statement.executeUpdate(sql);
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return 0;
+    }*/
+
+
+    public List<Book> bookList() {
+        String sql = "SELECT * FROM book";
+        List<Book> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class));
+        return list;
     }
 
-    public List<Book> getBookList() {
-        String sql = "select id , title ,author , amount from book ";
-        List<Book> bookList = new LinkedList<>();
+    /*public List<Book> getList() {
+        List<Book> result = new LinkedList<>();
         try {
             Connection connection = Database.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
+            String sql = "select * from book ";
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                Integer bookId = resultSet.getInt("id");
+                String bookTitle = resultSet.getString("title");
+                String author = resultSet.getString("author");
+                String publish_year = resultSet.getString("publish_year");
+                Integer amount  = resultSet.getInt("amount");
+                Boolean visible = resultSet.getBoolean("visible");
+
                 Book book = new Book();
-                book.setId(set.getInt("id"));
-                book.setTitle(set.getString("title"));
-                book.setAuthor(set.getString("author"));
-                book.setAmount(set.getString("amount"));
-                bookList.add(book);
+                book.setId(bookId);
+                book.setTitle(bookTitle);
+                book.setAuthor(author);
+                book.setPublishYear(publish_year);
+                book.setAmount(amount);
+                book.setVisible(visible);
+
+                result.add(book);
             }
-            connection.close();
-            return bookList;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
-
+        return result;
+    }*/
+    public Book getBookById(Integer id) {
+        String sql = "SELECT * FROM book Where id =" + id;
+        List<Book> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class));
+        if (list.size() > 0) {
+            return list.get(0);
+        }
         return null;
     }
 
-    public int deleteBook(int id) {
-            String sql = "delete from  book " +
-                    "where id =" + id;
-         return jdbcTemplate.update(sql);
+    /* public int deleteBook1(Integer id) {
+         try (Connection connection = Database.getConnection()) {
+             String sql = String.format("delete from book where id = '%s'", id);
+
+             Statement statement = connection.createStatement();
+             return statement.executeUpdate(sql);
+
+         } catch (SQLException sqlException) {
+             sqlException.printStackTrace();
+         }
+         return 0;
+     }*/
+    public int deleteBook(Integer id) {
+        String sql = "delete FROM book Where id =" + id;
+        int n = jdbcTemplate.update(sql);
+        return n;
     }
+
+    public void takebook(Integer id) {
+    }
+
+//    public
+//    int takebook(Integer id) {
+////        String sql = "insert into students_book (created_date,status, returned_date, duration,student_id,book_id) values (now(),'%s','%s','%s')";
+////        sql = String.format(sql, studentsBook.getCreatedDate(), studentsBook.getStatus(), studentsBook.getReturnedDate(), studentsBook.getDuration());
+////        int n = jdbcTemplate.update(sql);
+////        return n;
+////    }
+//        return 0;
+//    }
 }
+

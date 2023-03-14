@@ -1,66 +1,59 @@
 package org.example.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-
+import java.time.LocalDate;
 
 public class Book {
-    private Integer level;
-    private Integer id ;
+    private Integer id;
     private String title;
     private String author;
     private String publishYear;
-    private String amount ;
-    private  boolean visible ;
-
-    public String getTitle() {
-        return title;
+    private Integer amount;
+    private Boolean visible;
+    public Book() {
     }
 
-    public void setTitle(String title) {
+    public Book(Integer id, String title, String author, String publishYear, Integer amount, Boolean visible) {
+        this.id = id;
         this.title = title;
+        this.author = author;
+        this.publishYear = publishYear;
+        this.amount = amount;
+        this.visible = visible;
     }
-
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
-
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
     public String getAuthor() {
         return author;
     }
-
     public void setAuthor(String author) {
         this.author = author;
     }
-
     public String getPublishYear() {
         return publishYear;
     }
-
     public void setPublishYear(String publishYear) {
         this.publishYear = publishYear;
     }
-
-    public String getAmount() {
+    public Integer getAmount() {
         return amount;
     }
-
-    public void setAmount(String amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
-
-    public boolean isVisible() {
+    public Boolean getVisible() {
         return visible;
     }
-
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         this.visible = visible;
     }
 
@@ -70,8 +63,8 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", publishYear='" + publishYear + '\'' +
-                ", amount='" + amount + '\'' +
+                ", publishYear=" + publishYear +
+                ", amount=" + amount +
                 ", visible=" + visible +
                 '}';
     }
